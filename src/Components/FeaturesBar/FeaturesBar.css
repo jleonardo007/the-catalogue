@@ -1,0 +1,114 @@
+.features-bar {
+  min-height: 10vh;
+  display: flex;
+}
+
+.features-bar__features-list {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-grow: 2;
+}
+
+.toggle-bar {
+  display: none;
+  position: absolute;
+}
+
+.features-bar__search {
+  /* display: none; cambiar dinamicamente */
+  align-self: center;
+  outline: 1px solid grey;
+  margin: 0 auto;
+}
+
+.features-bar__search input {
+  width: 64vw;
+  height: 35px;
+  padding-left: 1rem;
+  border: none;
+}
+
+.features-bar__search button {
+  width: 50px;
+  height: 35px;
+  line-height: 35px;
+  border: none;
+  background: tomato;
+}
+
+/* Layout for mobile devices and tablets*/
+@media screen and (max-width: 480px) {
+  .features-bar__features-list {
+    min-width: 100vw;
+    min-height: 100vh;
+    display: none; /*Cambiar a flex dinamicamente*/
+    flex-direction: column;
+    justify-content: space-around;
+    z-index: 1;
+    background-color: rgba(65, 62, 62, 0.5);
+    font-size: 2rem;
+  }
+
+  .features-bar__item {
+    display: block;
+    min-height: 50px;
+    min-width: 50px;
+    text-align: center;
+  }
+
+  .features-bar__item select {
+    min-width: 200px;
+    font-size: 1.5rem;
+  }
+
+  .toggle-bar {
+    min-width: 40px;
+    height: 35px;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    top: 0;
+    right: 0;
+    font-size: 2rem;
+    background-color: tomato;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 1023px) {
+  .features-bar {
+    flex-wrap: wrap;
+  }
+
+  .features-bar__item select {
+    width: 70px;
+  }
+}
+
+/* Layout for laptops and desktop */
+@media screen and (min-width: 1024px) {
+  .features-bar {
+    margin: 0 1rem;
+  }
+  .features-bar__search input {
+    width: 25vw;
+  }
+}
+
+/* Bigger screens layout */
+@media screen and (min-width: 1441px) {
+  .features-bar,
+  .features-bar__item select {
+    font-size: 2rem;
+  }
+
+  .features-bar__search {
+    height: 50px;
+  }
+
+  .features-bar__search input,
+  .features-bar__search button {
+    height: 50px;
+    font-size: 2rem;
+  }
+}

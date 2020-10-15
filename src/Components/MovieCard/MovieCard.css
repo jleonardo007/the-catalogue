@@ -1,0 +1,23 @@
+.movie-card {
+  border: 2px solid black;
+}
+
+.movie-card a {
+  display: block;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+}
+
+@media screen and (max-width: 480px) {
+  .movie-card {
+    width: 300px;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
+
+@media screen and (min-width: 1441px) {
+  .movie-card a {
+    font-size: 2rem;
+  }
+}

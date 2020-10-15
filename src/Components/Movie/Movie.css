@@ -1,0 +1,149 @@
+.movie {
+  min-height: 100vh;
+}
+
+.movie__poster-image {
+  max-height: 100vh;
+}
+
+.movie__description {
+  padding: 0 1rem;
+}
+
+.movie__overview {
+  text-align: justify;
+}
+
+.movie__title,
+.movie__similar-movies h3,
+.youtube-container h2 {
+  padding: 1rem;
+}
+
+.movie__genres {
+  padding: 1rem;
+}
+
+.movie__genres li {
+  width: 150px;
+  padding: 0.5rem;
+  display: inline-block;
+  margin: 0rem 1rem 1rem 1rem;
+  background-color: teal;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.youtube-container {
+  text-align: center;
+}
+
+.no-movies {
+  text-align: center;
+}
+
+/* Layout for mobile devices  and tablets*/
+@media screen and (max-width: 800px) {
+  .movie__poster-image {
+    display: none;
+  }
+
+  .movie__title {
+    text-align: center;
+  }
+  .movie__genres {
+    display: none;
+  }
+  .movie__similar-movies {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .movie__similar-movies h3 {
+    grid-column: 1 / 4;
+  }
+
+  .movie__similar-movies a:nth-child(11) {
+    display: none;
+  }
+
+  .movie__trailer {
+    width: 95%;
+    height: 85%;
+  }
+}
+
+@media screen and (min-width: 540px) and (max-width: 800px) {
+  .movie {
+    font-size: 1.5rem;
+  }
+
+  .movie__trailer {
+    height: 300px;
+  }
+}
+
+/* Layout for laptops and desktops */
+@media screen and (min-width: 801px) {
+  .movie {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .movie__poster {
+    display: grid;
+    grid-template-columns: 100%;
+    place-content: center;
+    padding: 1rem;
+  }
+
+  .movie__similar-movies {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+
+  .movie__similar-movies h3 {
+    grid-column: 1 / 6;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .movie__title {
+    min-height: 10vh;
+    font-size: 2rem;
+  }
+
+  .movie__details {
+    min-height: 90vh;
+  }
+}
+
+@media screen and (min-width: 1441px) {
+  .movie__title {
+    font-size: 5rem;
+  }
+
+  .movie__overview {
+    font-size: 2rem;
+  }
+
+  .movie__genres li {
+    width: 200px;
+    font-size: 2rem;
+  }
+
+  .youtube-container h2 {
+    font-size: 4rem;
+  }
+
+  .movie__similar-movies h3 {
+    font-size: 3rem;
+  }
+
+  .movie__trailer {
+    width: 900px;
+    height: 506px;
+  }
+}
