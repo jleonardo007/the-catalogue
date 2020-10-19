@@ -1,18 +1,11 @@
-.movie-card {
-  border: 2px solid black;
-}
-
-.movie-card a {
-  display: block;
-  padding: 0.5rem;
-  font-size: 1.5rem;
+.movie-card__title {
+  padding: 1rem;
+  font-weight: bold;
 }
 
 @media screen and (max-width: 480px) {
   .movie-card {
     width: 300px;
-    display: flex;
-    flex-direction: column-reverse;
   }
 }
 
@@ -20,4 +13,8 @@
   .movie-card a {
     font-size: 2rem;
   }
+}
+
+.movie-card {
+  background-color: #e94560;
 }

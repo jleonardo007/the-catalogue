@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Home from "./Components/Home/Home";
-import MovieList from "./Components/Lists/MovieList";
+import MoviesList from "./Components/MoviesLists/MoviesLists";
 import Movie from "./Components/Movie/Movie";
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
           <Movie />
         </Route>
         <Route path="/lists/">
-          <MovieList />
+          <MoviesList />
         </Route>
         <Route path="/">
           <Home />

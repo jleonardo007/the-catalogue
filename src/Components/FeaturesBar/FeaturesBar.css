@@ -10,13 +10,20 @@
   flex-grow: 2;
 }
 
-.toggle-bar {
+.toggle-sidebar {
+  min-width: 35px;
+  height: 35px;
   display: none;
   position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 1.5rem;
+  background-color: #e94560;
+  color: #eeeeee;
+  z-index: 1;
 }
 
 .features-bar__search {
-  /* display: none; cambiar dinamicamente */
   align-self: center;
   outline: 1px solid grey;
   margin: 0 auto;
@@ -34,19 +41,19 @@
   height: 35px;
   line-height: 35px;
   border: none;
-  background: tomato;
+  background: #e94560;
 }
 
-/* Layout for mobile devices and tablets*/
+/* Layout for mobile devices*/
 @media screen and (max-width: 480px) {
   .features-bar__features-list {
     min-width: 100vw;
     min-height: 100vh;
-    display: none; /*Cambiar a flex dinamicamente*/
+    display: none;
     flex-direction: column;
     justify-content: space-around;
     z-index: 1;
-    background-color: rgba(65, 62, 62, 0.5);
+    background-color: #16213e;
     font-size: 2rem;
   }
 
@@ -62,19 +69,13 @@
     font-size: 1.5rem;
   }
 
-  .toggle-bar {
-    min-width: 40px;
-    height: 35px;
+  .toggle-sidebar {
     display: grid;
-    justify-content: center;
-    align-content: center;
-    top: 0;
-    right: 0;
-    font-size: 2rem;
-    background-color: tomato;
+    place-content: center;
   }
 }
 
+/* Layout for tablets*/
 @media screen and (min-width: 481px) and (max-width: 1023px) {
   .features-bar {
     flex-wrap: wrap;
@@ -88,8 +89,13 @@
 /* Layout for laptops and desktop */
 @media screen and (min-width: 1024px) {
   .features-bar {
-    margin: 0 1rem;
+    position: sticky;
+    top: 0;
   }
+  .features-bar__search {
+    margin-right: 1rem;
+  }
+
   .features-bar__search input {
     width: 25vw;
   }
@@ -111,4 +117,23 @@
     height: 50px;
     font-size: 2rem;
   }
+}
+
+.features-bar__search--hide {
+  display: none;
+}
+
+.features-bar__features-list--sidebar {
+  display: flex;
+}
+
+/*Look and feel*/
+@media screen and (min-width: 801px) {
+  .features-bar {
+    background-color: #16213e;
+  }
+}
+
+.features-bar__search input::placeholder {
+  color: #000;
 }

@@ -1,13 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { FaListUl } from "react-icons/fa";
+import "./ListsMenu.css";
 
 function MenuList() {
   return (
     <div className="lists-menu">
-      <button className="lists-menu__menu-btn">
-        <BsThreeDotsVertical />
-      </button>
+      <FaListUl className="list-icon" />
       <ul className="lists-menu__lists">
         <li className="list-menu__item">
           <Link to={`/list/favorites`}>Favorites</Link>
@@ -19,10 +18,10 @@ function MenuList() {
           <Link to={`/list/viewed`}>Viewed</Link>
         </li>
         {/* Agregar codigo para listas de usuario*/}
+        <li className="list-menu__item">
+          <input type="text" placeholder="Create list" />
+        </li>
       </ul>
-      <div className="list-menu__create-list">
-        <input type="text" placeholder="Create list" />
-      </div>
     </div>
   );
 }

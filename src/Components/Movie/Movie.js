@@ -2,7 +2,9 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Youtube from "react-youtube";
+import { FaHome } from "react-icons/fa";
 import API from "../../Services/api";
+import ListsMenu from "../ListsMenu/ListsMenu";
 import "./Movie.css";
 
 function Movie() {
@@ -31,6 +33,11 @@ function Movie() {
 
       <section className="movie__description">
         <h1 className="movie__title">{movie.original_title}</h1>
+        <Link to="/home">
+          <FaHome className="movie-list__icons" />
+        </Link>
+        <ListsMenu />
+
         <div className="movie__details">
           <p className="movie__overview">{movie.overview}</p>
           <ul className="movie__genres">

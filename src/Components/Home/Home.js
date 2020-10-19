@@ -18,13 +18,16 @@ function Home() {
     <div className="home">
       <FeaturesBar />
       <h1 className="home__title">Recent movies</h1>
-      <div className="home__movies">
-        {currentMovies
-          ? currentMovies.map((movie, index) => {
-              return <MovieCard key={index} movie={movie} />;
-            })
-          : "Fetching Movies"}
-      </div>
+
+      {currentMovies ? (
+        <div className="home__movies">
+          {currentMovies.map((movie, index) => {
+            return <MovieCard key={index} movie={movie} />;
+          })}
+        </div>
+      ) : (
+        <div className="fetching-movie">Fetching movies</div>
+      )}
     </div>
   );
 }

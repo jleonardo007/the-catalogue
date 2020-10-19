@@ -12,17 +12,22 @@ html {
   box-sizing: inherit;
 }
 
+body {
+  background-color: #0f3460;
+  color: #eeeeee;
+}
+
 ul {
   list-style: none;
 }
 
 a {
-  color: black;
+  color: #eeeeee;
   text-decoration: none;
 }
 
 a:visited {
-  color: black;
+  color: #eeeeee;
 }
 
 img {

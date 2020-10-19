@@ -1,13 +1,25 @@
 import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { BsSearch, BsList } from "react-icons/bs";
+import { FaWindowClose } from "react-icons/fa";
 import genres from "../../Helpers/movie-genres";
 import "./FeaturesBar.css";
-import { BsSearch, BsList } from "react-icons/bs";
 
 function FeaturesBar() {
+  const [isActive, setActive] = useState(false);
+
+  const handleSideBar = () => {
+    setActive(!isActive);
+  };
+
   return (
     <nav className="features-bar">
-      <ul className="features-bar__features-list">
+      <ul
+        className={`features-bar__features-list ${
+          isActive ? "features-bar__features-list--sidebar" : ""
+        }`}
+      >
         <li className="features-bar__item">Trending</li>
         <li className="features-bar__item">Popular</li>
         <li className="features-bar__item">Now playing</li>
@@ -40,10 +52,14 @@ function FeaturesBar() {
           </select>
         </li>
       </ul>
-      <div className="toggle-bar">
-        <BsList />
+      <div className="toggle-sidebar" onClick={handleSideBar}>
+        {isActive ? <FaWindowClose /> : <BsList />}
       </div>
-      <div className="features-bar__search">
+      <div
+        className={`features-bar__search ${
+          isActive ? "features-bar__search--hide" : ""
+        }`}
+      >
         <input type="text" placeholder="Search a movie" />
         <button type="submit">
           <BsSearch />

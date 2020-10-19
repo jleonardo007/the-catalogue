@@ -3,18 +3,15 @@
 }
 
 .movies-list__header {
-  height: 10vh;
-  display: flex;
-  align-items: center;
   padding: 1rem;
 }
 
 .movies-list__title {
-  margin-right: 5%;
+  margin-bottom: 0.5rem;
 }
 
 .movie-list__icons {
-  margin-left: 1rem;
+  color: #e94560;
   font-size: 2rem;
 }
 
@@ -27,7 +24,7 @@
 /* Layout for mobile devices */
 @media screen and (max-width: 480px) {
   .movies-list__title {
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
 
   .movies-list__movies {
@@ -37,7 +34,7 @@
   }
 
   .movie-list__icons {
-    font-size: 1.5em;
+    font-size: 1.5rem;
   }
 }
 
@@ -58,7 +55,7 @@
   }
 }
 
-@media screen and (min-width: 141px) {
+@media screen and (min-width: 1441px) {
   .movies-list__title {
     font-size: 4rem;
   }

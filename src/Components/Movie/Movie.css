@@ -1,3 +1,10 @@
+.fetching-movie {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  font-size: 2rem;
+}
+
 .movie {
   min-height: 100vh;
 }
@@ -51,9 +58,11 @@
   .movie__title {
     text-align: center;
   }
+
   .movie__genres {
     display: none;
   }
+
   .movie__similar-movies {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -74,6 +83,7 @@
   }
 }
 
+/*Layout for tablets*/
 @media screen and (min-width: 540px) and (max-width: 800px) {
   .movie {
     font-size: 1.5rem;
@@ -121,6 +131,10 @@
 }
 
 @media screen and (min-width: 1441px) {
+  .fetching-movie {
+    font-size: 4rem;
+  }
+
   .movie__title {
     font-size: 5rem;
   }
