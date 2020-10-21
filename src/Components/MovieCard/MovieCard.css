@@ -1,5 +1,31 @@
+.loading-movie {
+  min-height: 100%;
+  background-color: #e94560;
+}
+
+.movie-card {
+  background-color: #e94560;
+}
+
+.movie-card__image {
+  min-height: 78%;
+  display: grid;
+}
+
+.movie-card__image img {
+  align-self: stretch;
+  object-fit: cover;
+}
+
 .movie-card__title {
-  padding: 1rem;
+  min-height: 22%;
+}
+
+.movie-card__title a {
+  min-height: 100%;
+  display: block;
+  padding: 0.5rem;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
@@ -10,11 +36,7 @@
 }
 
 @media screen and (min-width: 1441px) {
-  .movie-card a {
+  .movie-card__title a {
     font-size: 2rem;
   }
-}
-
-.movie-card {
-  background-color: #e94560;
 }
