@@ -71,7 +71,8 @@
   display: block;
 }
 
-.list-menu__item a:hover {
+.list-menu__item a:hover,
+.list-menu__item span:hover {
   color: #e94560;
   font-weight: bold;
 }
