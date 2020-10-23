@@ -19,6 +19,12 @@ function Movie() {
       setTrailer(await API.fetchMovieVideos(id));
       setSimilar(await API.fetchSimilarMovies(id));
     })();
+
+    return function cleanUp() {
+      setMovie(null);
+      setTrailer(null);
+      setSimilar(null);
+    };
   }, [id]);
 
   return movie ? (
