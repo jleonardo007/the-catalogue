@@ -12,7 +12,6 @@ function Movie() {
   const [movie, setMovie] = useState(null);
   const [trailer, setTrailer] = useState(null);
   const [similar, setSimilar] = useState(null);
-  //const [list, setList] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -28,20 +27,18 @@ function Movie() {
     };
   }, [id]);
 
-  useEffect(() => {}, []);
-
   const addMovieToList = (listId, listName) => {
     const storage = JSON.parse(localStorage.lists);
     const list = storage.find((list) => list.id === listId);
     const id = movie.id;
 
     if (list.movies.some((movie) => movie.id === id)) {
-      alert(`${movie.original_title} was added to ${listName}`);
+      alert(`"${movie.original_title}" was added to "${listName}"`);
     } else {
       list.movies.push(movie);
       localStorage.setItem("lists", JSON.stringify(storage));
 
-      alert(`${movie.original_title} added to ${listName}`);
+      alert(`"${movie.original_title}" added to "${listName}"`);
     }
   };
 
@@ -63,6 +60,7 @@ function Movie() {
         <ListsMenu
           listParent={false}
           lists={JSON.parse(localStorage.lists)}
+          movie={movie}
           addMovie={addMovieToList}
         />
 

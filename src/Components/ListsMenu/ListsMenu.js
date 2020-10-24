@@ -1,20 +1,25 @@
 import React from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaListUl } from "react-icons/fa";
 import "./ListsMenu.css";
 
-function MenuList({ lists, listParent, addMovie }) {
+function MenuList({ lists, listParent, movie, addMovie }) {
   /*
     The prop "listParent" means if <ListMenu/> is on <MoviesLists> (listParent=true) 
-    or <Movie/> (listParent=false)
+    or <Movie/> (listParent=false).
 
     **if listParent = true <ListMenu/> renders links to all lists saved on localStorage.
 
-    **if listParent = false <ListMenu/> renders span tags, when one of them been clicked
-    the movie adds to a list. 
+    **if listParent = false <ListMenu/> renders span tags, when one of them has been clicked
+    the movie adds to a list.
+
+    **When user creates a list, this is added to local storage (listParent = true), if listParent = false 
+    list is created and a movie is added to this.
 
   */
+
+  const [input, setInput] = useState("");
 
   useEffect(() => {
     if (!localStorage.lists) {
@@ -39,6 +44,28 @@ function MenuList({ lists, listParent, addMovie }) {
     }
   }, []);
 
+  const createUserList = () => {
+    const listStorage = JSON.parse(localStorage.lists);
+    const list = listStorage.find((list) => list.name === input);
+    let userList = {};
+
+    if (list) {
+      alert(`"${input}" already exits`);
+    } else {
+      userList = {
+        id: input.replace(/ /g, "-"),
+        listType: "user list",
+        name: input,
+        movies: listParent ? [] : [].concat(movie),
+      };
+
+      listStorage.push(userList);
+      localStorage.setItem("lists", JSON.stringify(listStorage));
+    }
+
+    setInput("");
+  };
+
   return (
     <div className="lists-menu">
       <FaListUl className="list-icon" />
@@ -50,27 +77,32 @@ function MenuList({ lists, listParent, addMovie }) {
           ? lists.map((list, index) => {
               return (
                 <li className="list-menu__item" key={index}>
-                  {
-                    listParent ? (
-                      <Link to={`/lists/${list.id}`}>{list.name}</Link>
-                    ) : (
-                      <span
-                        onClick={() => {
-                          addMovie(list.id, list.name);
-                        }}
-                      >
-                        {list.name}
-                      </span>
-                    )
-                    /*handler que agregue la peli de Movie darle click a <span> */
-                  }
+                  {listParent ? (
+                    <Link to={`/lists/${list.id}`}>{list.name}</Link>
+                  ) : (
+                    <span
+                      onClick={() => {
+                        addMovie(list.id, list.name);
+                      }}
+                    >
+                      {list.name}
+                    </span>
+                  )}
                 </li>
               );
             })
           : null}
 
         <li className="list-menu__item">
-          <input type="text" placeholder="Create list" />
+          <input
+            type="text"
+            placeholder="Create a list"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && input.trim()) createUserList();
+            }}
+          />
         </li>
       </ul>
     </div>
