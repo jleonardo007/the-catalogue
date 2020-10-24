@@ -18,8 +18,9 @@
 }
 
 .list-menu__item {
-  height: 30px;
+  min-height: 30px;
   display: block;
+  padding: 0.5rem;
 }
 
 .list-menu__item input {
