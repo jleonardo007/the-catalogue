@@ -11,14 +11,29 @@
 }
 
 .movie-list__icons {
+  margin-left: 1rem;
   color: #e94560;
   font-size: 2rem;
+  cursor: pointer;
 }
 
 .movies-list__movies {
   display: grid;
   padding: 1rem;
   gap: 40px;
+}
+
+.movies-list__delete-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+
+  font-size: 1.5rem;
+}
+
+.movies-list__delete-icon:hover {
+  color: #0f3460;
 }
 
 /* Layout for mobile devices */
@@ -63,5 +78,9 @@
   .movie-list__icons {
     margin-left: 2rem;
     font-size: 3rem;
+  }
+
+  .movies-list__delete-icon {
+    font-size: 2.5rem;
   }
 }

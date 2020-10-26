@@ -19,11 +19,12 @@
 
 .movie-card__title {
   min-height: 22%;
+  position: relative;
 }
 
 .movie-card__title a {
   min-height: 100%;
-  display: block;
+  display: inline-block;
   padding: 0.5rem;
   font-size: 1.5rem;
   font-weight: bold;

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./MovieCard.css";
 
-function MovieCard({ movie }) {
+function MovieCard({ movie, children }) {
   return (
     <article className="movie-card">
       <div className="movie-card__image">
@@ -14,6 +14,7 @@ function MovieCard({ movie }) {
       </div>
       <div className="movie-card__title">
         <Link to={`/movie/${movie.id}`}>{movie.original_title}</Link>
+        {children}
       </div>
     </article>
   );
