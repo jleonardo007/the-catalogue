@@ -1,6 +1,7 @@
 .features-bar {
   min-height: 10vh;
   display: flex;
+  z-index: 1;
 }
 
 .features-bar__features-list {
