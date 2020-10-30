@@ -1,13 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./MovieCard.css";
+import Image from "../../resources/popcorn.png";
 
 function MovieCard({ movie, children }) {
   return (
     <article className="movie-card">
       <div className="movie-card__image">
         <img
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+          src={
+            movie.poster_path
+              ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+              : Image
+          }
           alt={movie.original_title}
           title={movie.original_title}
         />
