@@ -6,7 +6,7 @@ import { FaWindowClose } from "react-icons/fa";
 import genres from "../../Helpers/movie-genres";
 import "./FeaturesBar.css";
 
-function FeaturesBar({ fetchMovies, search, filter }) {
+function FeaturesBar({ fetchByCategory, search, filter, sort }) {
   const [isActive, setActive] = useState(false);
   const [searchInput, setInput] = useState("");
 
@@ -36,7 +36,7 @@ function FeaturesBar({ fetchMovies, search, filter }) {
           className="features-bar__item"
           style={{ cursor: "pointer" }}
           onClick={() => {
-            fetchMovies("trending");
+            fetchByCategory("trending");
           }}
         >
           Trending
@@ -45,7 +45,7 @@ function FeaturesBar({ fetchMovies, search, filter }) {
           className="features-bar__item"
           style={{ cursor: "pointer" }}
           onClick={() => {
-            fetchMovies("popular");
+            fetchByCategory("popular");
           }}
         >
           Popular
@@ -54,7 +54,7 @@ function FeaturesBar({ fetchMovies, search, filter }) {
           className="features-bar__item"
           style={{ cursor: "pointer" }}
           onClick={() => {
-            fetchMovies();
+            fetchByCategory();
           }}
         >
           Now playing
@@ -63,7 +63,7 @@ function FeaturesBar({ fetchMovies, search, filter }) {
           className="features-bar__item"
           style={{ cursor: "pointer" }}
           onClick={() => {
-            fetchMovies("upcoming");
+            fetchByCategory("upcoming");
           }}
         >
           Upcoming
@@ -75,13 +75,18 @@ function FeaturesBar({ fetchMovies, search, filter }) {
           <select
             name="filter"
             onChange={(e) => {
-              filter(parseInt(e.target.value));
+              if (e.target.value === "0") {
+                filter(parseInt(e.target.value));
+                e.target.value = e.target.value = "Genre";
+              } else filter(parseInt(e.target.value));
             }}
           >
             <option hidden defaultValue>
               Genre
             </option>
-            <option value="0">Clear filter</option>
+            <option value="0" style={{ color: "tomato" }}>
+              Clear filter
+            </option>
             {genres.map((genre, index) => {
               return (
                 <option key={index} value={genre.id}>
@@ -92,13 +97,23 @@ function FeaturesBar({ fetchMovies, search, filter }) {
           </select>
         </li>
         <li className="features-bar__item">
-          <select name="sort">
+          <select
+            name="sort"
+            onChange={(e) => {
+              sort(e.target.value);
+              if (e.target.value === "clear")
+                e.target.value = e.target.value = "Sort";
+            }}
+          >
             <option hidden defaultValue>
               Sort
             </option>
+            <option value="clear" style={{ color: "tomato" }}>
+              Clear Sort
+            </option>
             <option value="year">Release year</option>
+            <option value="popularity">Popularity</option>
             <option value="voted">Most voted</option>
-            <option value="budget">Budget</option>
           </select>
         </li>
       </ul>

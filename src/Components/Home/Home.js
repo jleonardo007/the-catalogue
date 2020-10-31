@@ -11,6 +11,8 @@ function Home() {
   const [movies, setMovies] = useState(null);
   const [pageNumber, setPage] = useState(1);
   const [query, setQuery] = useState("");
+  const [genreID, setID] = useState(0);
+  const [sortBy, setSort] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -34,33 +36,103 @@ function Home() {
     if (observerTarget.current) observer.observe(observerTarget.current);
   }, []);
 
+  //"Infinite scroll" effect
   useEffect(() => {
-    const loadMoreMovies = async () => {
-      let results = [];
-      switch (title) {
-        case "Popular Movies":
-          results = await API.fetchPopularMovies(pageNumber);
+    const loadSortedMovies = (movies, sortBy) => {
+      switch (sortBy) {
+        case "year":
+          movies.sort(
+            (a, b) => Date.parse(b.release_date) - Date.parse(a.release_date)
+          );
           break;
 
-        case "Upcoming":
-          results = await API.fetchUpcomingMovies(pageNumber);
+        case "popularity":
+          setMovies((prevMovies) => [
+            ...prevMovies.sort((a, b) => b.popularity - a.popularity),
+          ]);
+
           break;
 
-        case "Now Playing":
-          results = await API.fetchNowPlayingMovies(pageNumber);
+        case "voted":
+          setMovies((prevMovies) => [
+            ...prevMovies.sort((a, b) => b.vote_average - a.vote_average),
+          ]);
           break;
 
         default:
           break;
       }
-      setMovies((prevMovies) =>
-        prevMovies ? prevMovies.concat(...results) : null
-      );
+
+      return movies;
+    };
+
+    const loadFilteredMovies = (movies, genreID) => {
+      const results = movies.filter((movie) => {
+        return movie.genre_ids.includes(genreID);
+      });
+
+      return results;
+    };
+
+    const loadMoreMovies = async () => {
+      let results = [];
+      let filteredResults = [];
+      let sortedResults = [];
+
+      switch (title) {
+        case "Popular Movies":
+          results = await API.fetchPopularMovies(pageNumber);
+
+          if (genreID !== 0)
+            filteredResults = loadFilteredMovies(results, genreID);
+
+          if (sortBy !== "clear")
+            sortedResults = loadSortedMovies(results, sortBy);
+          break;
+
+        case "Upcoming":
+          results = await API.fetchUpcomingMovies(pageNumber);
+
+          if (genreID !== 0)
+            filteredResults = loadFilteredMovies(results, genreID);
+
+          if (sortBy !== "clear")
+            sortedResults = loadSortedMovies(results, sortBy);
+          break;
+
+        case "Now Playing":
+          results = await API.fetchNowPlayingMovies(pageNumber);
+
+          if (genreID !== 0)
+            filteredResults = loadFilteredMovies(results, genreID);
+
+          if (sortBy !== "clear")
+            sortedResults = loadSortedMovies(results, sortBy);
+          break;
+
+        default:
+          break;
+      }
+
+      if (genreID !== 0) {
+        setMovies((prevMovies) =>
+          prevMovies ? prevMovies.concat(...filteredResults) : null
+        );
+      } else if (sortBy) {
+        setMovies((prevMovies) =>
+          prevMovies ? prevMovies.concat(...sortedResults) : null
+        );
+      } else {
+        setMovies((prevMovies) =>
+          prevMovies ? prevMovies.concat(...results) : null
+        );
+      }
     };
 
     if (pageNumber > 1) loadMoreMovies();
-  }, [pageNumber, title]);
+  }, [pageNumber, title, genreID, sortBy]);
 
+  // "Infinite scroll" effect applied on search
   useEffect(() => {
     const loadMoreMoviesOnSearch = async () => {
       const results = await API.searchMovie(query, pageNumber);
@@ -68,15 +140,70 @@ function Home() {
         prevMovies ? prevMovies.concat(...results) : null
       );
     };
+
     if (pageNumber > 1 && query) loadMoreMoviesOnSearch();
   }, [pageNumber, query]);
 
-  const fetchMovies = async (movies) => {
+  // Filter movies effect
+  useEffect(() => {
+    const filterMovies = async () => {
+      setMovies((prevMovies) => [
+        ...prevMovies.filter((movie) => {
+          return movie.genre_ids.includes(genreID);
+        }),
+      ]);
+    };
+
+    if (genreID !== 0) filterMovies();
+  }, [genreID]);
+
+  // Sort movies effect
+  useEffect(() => {
+    const sortMovies = () => {
+      switch (sortBy) {
+        case "clear":
+          setMovies((prevMovies) => [
+            ...prevMovies.sort((a, b) => b.popularity - a.popularity),
+          ]);
+          break;
+
+        case "year":
+          setMovies((prevMovies) => [
+            ...prevMovies.sort(
+              (a, b) => Date.parse(b.release_date) - Date.parse(a.release_date)
+            ),
+          ]);
+          break;
+
+        case "popularity":
+          setMovies((prevMovies) => [
+            ...prevMovies.sort((a, b) => b.popularity - a.popularity),
+          ]);
+
+          break;
+
+        case "voted":
+          setMovies((prevMovies) => [
+            ...prevMovies.sort((a, b) => b.vote_average - a.vote_average),
+          ]);
+          break;
+
+        default:
+          break;
+      }
+    };
+
+    if (sortBy) sortMovies();
+  }, [sortBy]);
+
+  const handleFetchMoviesByCategory = async (category) => {
+    setSort("");
     setQuery("");
     setPage(1);
     setMovies(null);
+    if (genreID !== 0) setID(0);
 
-    switch (movies) {
+    switch (category) {
       case "trending":
         setTitle("Trending Movies");
         setMovies(await API.fetchTrendingMovies());
@@ -99,7 +226,7 @@ function Home() {
     }
   };
 
-  const searchMovies = async (query) => {
+  const handleSearchMovies = async (query) => {
     setQuery(query);
     const result = await API.searchMovie(query);
     setMovies(null);
@@ -112,25 +239,26 @@ function Home() {
     }
   };
 
-  /*const filterMoviesByGenre = (id) => {
-    let results = [];
+  const handleFilter = async (id) => {
+    if (id === 0) {
+      setID(0);
+      setTitle("Now Playing");
+      setPage(0);
+      setMovies(await API.fetchNowPlayingMovies());
+    } else setID(id);
+  };
 
-    //Id === 0 represents the clear filter option, check FeaturesBar component
-    if (id === 0) console.log("filter cleaned");
-    else {
-      results = currentMovies.filter((movie) => {
-        return movie.genre_ids.includes(id);
-      });
-      setCurrent(results);
-    }
-  };*/
+  const handleSort = (sort) => {
+    setSort(sort);
+  };
 
   return (
     <div className="home">
       <FeaturesBar
-        fetchMovies={fetchMovies}
-        search={searchMovies}
-        /*filter={filterMoviesByGenre}*/
+        fetchByCategory={handleFetchMoviesByCategory}
+        search={handleSearchMovies}
+        filter={handleFilter}
+        sort={handleSort}
       />
       <h1 className="home__title">{title}</h1>
 
