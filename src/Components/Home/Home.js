@@ -34,6 +34,11 @@ function Home() {
     });
 
     if (observerTarget.current) observer.observe(observerTarget.current);
+
+    return () => {
+      //Observer cleanup
+      observer.disconnect();
+    };
   }, []);
 
   //"Infinite scroll" effect
@@ -146,7 +151,7 @@ function Home() {
 
   // Filter movies effect
   useEffect(() => {
-    const filterMovies = async () => {
+    const filterMovies = () => {
       setMovies((prevMovies) => [
         ...prevMovies.filter((movie) => {
           return movie.genre_ids.includes(genreID);
