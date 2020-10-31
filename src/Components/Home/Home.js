@@ -20,6 +20,30 @@ function Home() {
     })();
   }, []);
 
+  //Creating list storage
+  useEffect(() => {
+    if (!localStorage.lists) {
+      localStorage.setItem(
+        "lists",
+        JSON.stringify([
+          {
+            id: "favorites",
+            name: "Favorites",
+            listType: "default",
+            movies: [],
+          },
+          {
+            id: "view-later",
+            name: "View later",
+            listType: "default",
+            movies: [],
+          },
+          { id: "viewed", name: "Viewed", listType: "default", movies: [] },
+        ])
+      );
+    }
+  }, []);
+
   useEffect(() => {
     const handleInfiniteScroll = (entries) => {
       if (entries[0].isIntersecting) {

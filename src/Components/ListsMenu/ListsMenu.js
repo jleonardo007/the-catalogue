@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaListUl } from "react-icons/fa";
 import "./ListsMenu.css";
@@ -20,29 +20,6 @@ function MenuList({ lists, listParent, movie, addMovie }) {
   */
 
   const [input, setInput] = useState("");
-
-  useEffect(() => {
-    if (!localStorage.lists) {
-      localStorage.setItem(
-        "lists",
-        JSON.stringify([
-          {
-            id: "favorites",
-            name: "Favorites",
-            listType: "default",
-            movies: [],
-          },
-          {
-            id: "view-later",
-            name: "View later",
-            listType: "default",
-            movies: [],
-          },
-          { id: "viewed", name: "Viewed", listType: "default", movies: [] },
-        ])
-      );
-    }
-  }, []);
 
   const createUserList = () => {
     const listStorage = JSON.parse(localStorage.lists);
