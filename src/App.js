@@ -7,7 +7,7 @@ import Movie from "./Components/Movie/Movie";
 
 function App() {
   return (
-    <Router basename={process.env.PUBLIC_URL || ""}>
+    <Router basename="/">
       <Switch>
         <Route path="/movie/:id">
           <Movie />
