@@ -4,9 +4,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Project's data source was provided by [The Movie Database (TMDB)](https://developers.themoviedb.org/).
 
-[View App's demo](https://jleonardo007.github.io/movies-app/home)
+[View App's demo](https://jleonardo007.github.io/movies-app/#/)
 
-![App Image](/home.jpg)
+![App Image](home.jpg)
 
 ## App features
 
