@@ -6,7 +6,7 @@ Project's data source was provided by [The Movie Database (TMDB)](https://develo
 
 [View App's demo](https://jleonardo007.github.io/movies-app/home)
 
-![App Image](home.jpg)
+![App Image](/home.jpg)
 
 ## App features
 
