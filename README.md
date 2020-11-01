@@ -12,7 +12,7 @@ Project's data source was provided by [The Movie Database (TMDB)](https://develo
 
 - Fetch Movies by categories.
 - Search movies.
-- Sort an filter movies.
+- Sort and filter movies.
 - Default and user's list.
 - Lists are saved in localStorage
 - Responsive Layout.
