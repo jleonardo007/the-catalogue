@@ -6,8 +6,9 @@ import MoviesList from "./Components/MoviesLists/MoviesLists";
 import Movie from "./Components/Movie/Movie";
 
 function App() {
+  console.log(process.env.PUBLIC_URL);
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL || ""}>
       <Switch>
         <Route path="/movie/:id">
           <Movie />
