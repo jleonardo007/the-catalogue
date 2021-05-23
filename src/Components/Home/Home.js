@@ -7,18 +7,28 @@ import "./Home.css";
 
 function Home() {
   const observerTarget = useRef(null);
-  const [title, setTitle] = useState("Now Playing");
-  const [movies, setMovies] = useState(null);
-  const [pageNumber, setPage] = useState(1);
-  const [query, setQuery] = useState("");
-  const [genreID, setID] = useState(0);
-  const [sortBy, setSort] = useState("");
+  const initialState = {
+    title: "Now Playing",
+    movies: null,
+    pageNumber: 1,
+    query: "",
+    genreID: 0,
+    sortBy: "",
+  };
+  const [homeState, setHomeState] = useState(initialState);
 
   useEffect(() => {
-    (async () => {
-      setMovies(await API.fetchNowPlayingMovies());
-    })();
-  }, []);
+    if (homeState.title === "Now Playing" && !homeState.movies)
+      (async () => {
+        const results = await API.fetchNowPlayingMovies();
+        setHomeState((prevState) => {
+          return {
+            ...prevState,
+            movies: results,
+          };
+        });
+      })();
+  }, [homeState.title, homeState.movies]);
 
   //Creating list storage
   useEffect(() => {
@@ -47,7 +57,12 @@ function Home() {
   useEffect(() => {
     const handleInfiniteScroll = (entries) => {
       if (entries[0].isIntersecting) {
-        setPage((prevPage) => prevPage + 1);
+        setHomeState((prevState) => {
+          return {
+            ...prevState,
+            pageNumber: prevState.pageNumber + 1,
+          };
+        });
       }
     };
 
@@ -57,228 +72,249 @@ function Home() {
       thresold: 1.0,
     });
 
-    if (observerTarget.current) observer.observe(observerTarget.current);
+    observer.observe(observerTarget.current);
+    if (homeState.genreID !== 0) observer.disconnect();
 
     return () => {
-      //Observer cleanup
       observer.disconnect();
     };
-  }, []);
+  }, [homeState.genreID]);
 
   //"Infinite scroll" effect
   useEffect(() => {
-    const loadSortedMovies = (movies, sortBy) => {
-      switch (sortBy) {
-        case "year":
-          movies.sort(
-            (a, b) => Date.parse(b.release_date) - Date.parse(a.release_date)
-          );
-          break;
-
-        case "popularity":
-          setMovies((prevMovies) => [
-            ...prevMovies.sort((a, b) => b.popularity - a.popularity),
-          ]);
-
-          break;
-
-        case "voted":
-          setMovies((prevMovies) => [
-            ...prevMovies.sort((a, b) => b.vote_average - a.vote_average),
-          ]);
-          break;
-
-        default:
-          break;
-      }
-
-      return movies;
-    };
-
-    const loadFilteredMovies = (movies, genreID) => {
-      const results = movies.filter((movie) => {
-        return movie.genre_ids.includes(genreID);
-      });
-
-      return results;
-    };
-
     const loadMoreMovies = async () => {
       let results = [];
-      let filteredResults = [];
-      let sortedResults = [];
 
-      switch (title) {
+      switch (homeState.title) {
         case "Popular Movies":
-          results = await API.fetchPopularMovies(pageNumber);
-
-          if (genreID !== 0)
-            filteredResults = loadFilteredMovies(results, genreID);
-
-          if (sortBy !== "clear")
-            sortedResults = loadSortedMovies(results, sortBy);
+          results = await API.fetchPopularMovies(homeState.pageNumber);
           break;
 
         case "Upcoming":
-          results = await API.fetchUpcomingMovies(pageNumber);
-
-          if (genreID !== 0)
-            filteredResults = loadFilteredMovies(results, genreID);
-
-          if (sortBy !== "clear")
-            sortedResults = loadSortedMovies(results, sortBy);
+          results = await API.fetchUpcomingMovies(homeState.pageNumber);
           break;
 
         case "Now Playing":
-          results = await API.fetchNowPlayingMovies(pageNumber);
-
-          if (genreID !== 0)
-            filteredResults = loadFilteredMovies(results, genreID);
-
-          if (sortBy !== "clear")
-            sortedResults = loadSortedMovies(results, sortBy);
-          break;
-
         default:
+          results = await API.fetchNowPlayingMovies(homeState.pageNumber);
           break;
       }
 
-      if (genreID !== 0) {
-        setMovies((prevMovies) =>
-          prevMovies ? prevMovies.concat(...filteredResults) : null
-        );
-      } else if (sortBy) {
-        setMovies((prevMovies) =>
-          prevMovies ? prevMovies.concat(...sortedResults) : null
-        );
-      } else {
-        setMovies((prevMovies) =>
-          prevMovies ? prevMovies.concat(...results) : null
-        );
-      }
+      setHomeState((prevState) => {
+        return {
+          ...prevState,
+          movies: prevState.movies ? prevState.movies.concat(...results) : null,
+        };
+      });
     };
 
-    if (pageNumber > 1) loadMoreMovies();
-  }, [pageNumber, title, genreID, sortBy]);
+    if (homeState.pageNumber > 1) loadMoreMovies();
+  }, [homeState.title, homeState.sortBy, homeState.pageNumber]);
 
   // "Infinite scroll" effect applied on search
   useEffect(() => {
     const loadMoreMoviesOnSearch = async () => {
-      const results = await API.searchMovie(query, pageNumber);
-      setMovies((prevMovies) =>
-        prevMovies ? prevMovies.concat(...results) : null
-      );
+      const results = await API.searchMovie(homeState.query, homeState.pageNumber);
+
+      setHomeState((prevState) => {
+        return {
+          ...prevState,
+          movies: prevState.movies ? prevState.movies.concat(...results) : null,
+        };
+      });
     };
 
-    if (pageNumber > 1 && query) loadMoreMoviesOnSearch();
-  }, [pageNumber, query]);
+    if (homeState.pageNumber > 1 && homeState.query) loadMoreMoviesOnSearch();
+  }, [homeState.pageNumber, homeState.query]);
+
+  //Search movies effect
+  useEffect(() => {
+    if (homeState.query)
+      (async () => {
+        const results = await API.searchMovie(homeState.query);
+
+        if (results.length === 0)
+          setHomeState((prevState) => {
+            return {
+              ...prevState,
+              title: "No results",
+              query: "",
+            };
+          });
+        else
+          setHomeState((prevState) => {
+            return {
+              ...prevState,
+              pageNumber: 1,
+              title: `Results for "${homeState.query}"`,
+              movies: results,
+              query: "",
+            };
+          });
+      })();
+  }, [homeState.query]);
 
   // Filter movies effect
   useEffect(() => {
     const filterMovies = () => {
-      setMovies((prevMovies) => [
-        ...prevMovies.filter((movie) => {
-          return movie.genre_ids.includes(genreID);
-        }),
-      ]);
+      setHomeState((prevState) => {
+        return {
+          ...prevState,
+          movies: [
+            ...prevState.movies.filter((movie) => movie.genre_ids.includes(homeState.genreID)),
+          ],
+        };
+      });
     };
 
-    if (genreID !== 0) filterMovies();
-  }, [genreID]);
+    if (homeState.genreID !== 0) filterMovies();
+  }, [homeState.genreID]);
 
   // Sort movies effect
   useEffect(() => {
     const sortMovies = () => {
-      switch (sortBy) {
-        case "clear":
-          setMovies((prevMovies) => [
-            ...prevMovies.sort((a, b) => b.popularity - a.popularity),
-          ]);
-          break;
-
+      switch (homeState.sortBy) {
         case "year":
-          setMovies((prevMovies) => [
-            ...prevMovies.sort(
-              (a, b) => Date.parse(b.release_date) - Date.parse(a.release_date)
-            ),
-          ]);
+          setHomeState((prevState) => {
+            return {
+              ...prevState,
+              movies: [
+                ...prevState.movies.sort(
+                  (a, b) => Date.parse(b.release_date) - Date.parse(a.release_date)
+                ),
+              ],
+            };
+          });
           break;
 
         case "popularity":
-          setMovies((prevMovies) => [
-            ...prevMovies.sort((a, b) => b.popularity - a.popularity),
-          ]);
-
+          setHomeState((prevState) => {
+            return {
+              ...prevState,
+              movies: [...prevState.movies.sort((a, b) => b.popularity - a.popularity)],
+            };
+          });
           break;
 
         case "voted":
-          setMovies((prevMovies) => [
-            ...prevMovies.sort((a, b) => b.vote_average - a.vote_average),
-          ]);
+          setHomeState((prevState) => {
+            return {
+              ...prevState,
+              movies: [...prevState.movies.sort((a, b) => b.vote_average - a.vote_average)],
+            };
+          });
           break;
 
+        case "clear":
         default:
+          setHomeState((prevState) => {
+            return {
+              ...prevState,
+              sortBy: "",
+              movies: [...prevState.movies.sort((a, b) => b.popularity - a.popularity)],
+            };
+          });
           break;
       }
     };
 
-    if (sortBy) sortMovies();
-  }, [sortBy]);
+    if (homeState.sortBy) sortMovies();
+  }, [homeState.sortBy]);
 
   const handleFetchMoviesByCategory = async (category) => {
-    setSort("");
-    setQuery("");
-    setPage(1);
-    setMovies(null);
-    if (genreID !== 0) setID(0);
+    const { genreID } = homeState;
+    let results = null;
+
+    if (genreID !== 0)
+      setHomeState((prevState) => {
+        return {
+          ...prevState,
+          genreID: 0,
+        };
+      });
 
     switch (category) {
       case "trending":
-        setTitle("Trending Movies");
-        setMovies(await API.fetchTrendingMovies());
+        results = await API.fetchTrendingMovies();
+        setHomeState((prevState) => {
+          return {
+            ...prevState,
+            title: "Trending Movies",
+            movies: results,
+          };
+        });
         break;
 
       case "popular":
-        setTitle("Popular Movies");
-        setMovies(await API.fetchPopularMovies());
+        results = await API.fetchPopularMovies();
+        setHomeState((prevState) => {
+          return {
+            ...prevState,
+            title: "Popular Movies",
+            movies: results,
+          };
+        });
         break;
 
       case "upcoming":
-        setTitle("Upcoming");
-        setMovies(await API.fetchUpcomingMovies());
+        results = await API.fetchUpcomingMovies();
+        setHomeState((prevState) => {
+          return {
+            ...prevState,
+            title: "Upcoming",
+            movies: results,
+          };
+        });
         break;
 
       default:
-        setTitle("Now Playing");
-        setMovies(await API.fetchNowPlayingMovies());
+        results = await API.fetchNowPlayingMovies();
+        setHomeState((prevState) => {
+          return {
+            ...prevState,
+            title: "Now Playing",
+            movies: results,
+          };
+        });
         break;
     }
   };
 
-  const handleSearchMovies = async (query) => {
-    setQuery(query);
-    const result = await API.searchMovie(query);
-    setMovies(null);
-
-    if (result.length === 0) setTitle("No results");
-    else {
-      setPage(1);
-      setTitle(`Results for "${query}"`);
-      setMovies(await API.searchMovie(query));
-    }
+  const handleSearchMovies = (query) => {
+    setHomeState((prevState) => {
+      return {
+        ...prevState,
+        query,
+      };
+    });
   };
 
   const handleFilter = async (id) => {
     if (id === 0) {
-      setID(0);
-      setTitle("Now Playing");
-      setPage(0);
-      setMovies(await API.fetchNowPlayingMovies());
-    } else setID(id);
+      setHomeState((prevState) => {
+        return {
+          ...prevState,
+          genreID: 0,
+          title: "Now Playing",
+          movies: null,
+        };
+      });
+    } else
+      setHomeState((prevState) => {
+        return {
+          ...prevState,
+          genreID: id,
+        };
+      });
   };
 
   const handleSort = (sort) => {
-    setSort(sort);
+    setHomeState((prevState) => {
+      return {
+        ...prevState,
+        sortBy: sort,
+      };
+    });
   };
 
   return (
@@ -289,11 +325,10 @@ function Home() {
         filter={handleFilter}
         sort={handleSort}
       />
-      <h1 className="home__title">{title}</h1>
-
-      {movies ? (
+      <h1 className="home__title">{homeState.title}</h1>
+      {homeState.movies ? (
         <div className="home__movies">
-          {movies.map((movie, index) => {
+          {homeState.movies.map((movie, index) => {
             return <MovieCard key={index} movie={movie} />;
           })}
         </div>
