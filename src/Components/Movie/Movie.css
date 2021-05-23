@@ -50,7 +50,7 @@
 }
 
 /* Layout for mobile devices  and tablets*/
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1023px) {
   .movie__poster-image {
     display: none;
   }
@@ -95,7 +95,7 @@
 }
 
 /* Layout for laptops and desktops */
-@media screen and (min-width: 801px) {
+@media screen and (min-width: 1025px) {
   .movie {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -103,21 +103,22 @@
 
   .movie__poster {
     display: grid;
-    grid-template-columns: 100%;
-    place-content: center;
     padding: 1rem;
   }
 
   .movie__similar-movies {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
+    grid-column: 1 / 3;
     gap: 10px;
+    padding: 1rem;
   }
 
   .movie__similar-movies h3 {
     grid-column: 1 / 6;
     padding: 1rem;
     text-align: center;
+    font-size: 2rem;
   }
 
   .movie__title {
@@ -136,28 +137,28 @@
   }
 
   .movie__title {
-    font-size: 5rem;
+    font-size: 3vw;
   }
 
   .movie__overview {
-    font-size: 2rem;
+    font-size: 1.25vw;
   }
 
   .movie__genres li {
     width: 200px;
-    font-size: 2rem;
+    font-size: 1.25vw;
   }
 
   .youtube-container h2 {
-    font-size: 4rem;
+    font-size: 2.5vw;
   }
 
   .movie__similar-movies h3 {
-    font-size: 3rem;
+    font-size: 3vw;
   }
 
   .movie__trailer {
-    width: 900px;
-    height: 506px;
+    width: 45vw;
+    height: 40vh;
   }
 }

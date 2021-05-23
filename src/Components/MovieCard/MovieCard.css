@@ -4,35 +4,44 @@
 }
 
 .movie-card {
+  width: 20vw;
+  height: 60vh;
   background-color: #e94560;
-}
-
-.movie-card__image {
-  min-height: 78%;
-  display: grid;
-}
-
-.movie-card__image img {
-  align-self: stretch;
-  object-fit: cover;
-}
-
-.movie-card__title {
-  min-height: 22%;
   position: relative;
 }
 
-.movie-card__title a {
-  min-height: 100%;
-  display: inline-block;
-  padding: 0.5rem;
-  font-size: 1.5rem;
-  font-weight: bold;
+.movie-card__image {
+  min-height: 90%;
+  background-size: cover;
+  background-position: center;
+}
+
+.movie-card__title {
+  min-height: 10%;
+  padding: 0.6vw;
+  font-size: 1.2vw;
 }
 
 @media screen and (max-width: 480px) {
   .movie-card {
     width: 300px;
+  }
+
+  .movie-card__title {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 1024px) {
+  .movie-card {
+    width: 300px;
+    height: 40vh;
+  }
+
+  .movie-card__title {
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
   }
 }
 

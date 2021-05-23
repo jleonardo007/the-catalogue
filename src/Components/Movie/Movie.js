@@ -74,37 +74,33 @@ function Movie() {
           <div className="youtube-container">
             <h2>Movie trailer</h2>
             {trailer ? (
-              <Youtube
-                videoId={trailer.id}
-                id={trailer.id}
-                className="movie__trailer"
-              />
+              <Youtube videoId={trailer.id} id={trailer.id} className="movie__trailer" />
             ) : (
               "Fetching video trailer"
             )}
           </div>
-          {similar ? (
-            similar.length === 0 ? null : (
-              <aside className="movie__similar-movies">
-                <h3>Similar movies</h3>
-                {similar.map((movie, index) => {
-                  return (
-                    <Link to={`/movie/${movie.id}`} key={index}>
-                      <img
-                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                        alt={movie.original_title}
-                        title={movie.original_title}
-                      />
-                    </Link>
-                  );
-                })}
-              </aside>
-            )
-          ) : (
-            "fetching similar movies"
-          )}
         </div>
       </section>
+      {similar ? (
+        similar.length === 0 ? null : (
+          <aside className="movie__similar-movies">
+            <h3>Similar movies</h3>
+            {similar.map((movie, index) => {
+              return (
+                <Link to={`/movie/${movie.id}`} key={index}>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    alt={movie.original_title}
+                    title={movie.original_title}
+                  />
+                </Link>
+              );
+            })}
+          </aside>
+        )
+      ) : (
+        "fetching similar movies"
+      )}
     </div>
   ) : (
     <div className="fetching-movie">Fetching movie</div>

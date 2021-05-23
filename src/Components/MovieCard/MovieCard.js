@@ -6,21 +6,20 @@ import Image from "../../resources/popcorn.png";
 function MovieCard({ movie, children }) {
   return (
     <article className="movie-card">
-      <div className="movie-card__image">
-        <img
-          src={
-            movie.poster_path
-              ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-              : Image
-          }
-          alt={movie.original_title}
+      <Link to={`/movie/${movie.id}`}>
+        <div
+          className="movie-card__image"
           title={movie.original_title}
+          style={{
+            backgroundImage: `url(${
+              movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : Image
+            })`,
+          }}
         />
-      </div>
-      <div className="movie-card__title">
-        <Link to={`/movie/${movie.id}`}>{movie.original_title}</Link>
-        {children}
-      </div>
+
+        <div className="movie-card__title">{movie.original_title}</div>
+      </Link>
+      {children}
     </article>
   );
 }

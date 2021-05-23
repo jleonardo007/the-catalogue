@@ -2,16 +2,16 @@ import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { BsSearch, BsList } from "react-icons/bs";
-import { FaWindowClose } from "react-icons/fa";
+
 import genres from "../../Helpers/movie-genres";
 import "./FeaturesBar.css";
 
 function FeaturesBar({ fetchByCategory, search, filter, sort }) {
-  const [isActive, setActive] = useState(false);
+  const [toggleSideBar, setToggleSideBar] = useState(false);
   const [searchInput, setInput] = useState("");
 
   const handleSideBar = () => {
-    setActive(!isActive);
+    setToggleSideBar(!toggleSideBar);
   };
 
   const handleInput = (input) => {
@@ -27,15 +27,17 @@ function FeaturesBar({ fetchByCategory, search, filter, sort }) {
 
   return (
     <nav className="features-bar">
-      <ul
-        className={`features-bar__features-list ${
-          isActive ? "features-bar__features-list--sidebar" : ""
-        }`}
-      >
+      <ul className={`features-bar__features-list ${toggleSideBar && "sidebar"}`}>
+        {toggleSideBar && (
+          <button className="close-sidebar-btn" onClick={handleSideBar}>
+            X
+          </button>
+        )}
         <li
           className="features-bar__item"
           style={{ cursor: "pointer" }}
           onClick={() => {
+            if (toggleSideBar) setToggleSideBar(false);
             fetchByCategory("trending");
           }}
         >
@@ -45,6 +47,7 @@ function FeaturesBar({ fetchByCategory, search, filter, sort }) {
           className="features-bar__item"
           style={{ cursor: "pointer" }}
           onClick={() => {
+            if (toggleSideBar) setToggleSideBar(false);
             fetchByCategory("popular");
           }}
         >
@@ -54,6 +57,7 @@ function FeaturesBar({ fetchByCategory, search, filter, sort }) {
           className="features-bar__item"
           style={{ cursor: "pointer" }}
           onClick={() => {
+            if (toggleSideBar) setToggleSideBar(false);
             fetchByCategory();
           }}
         >
@@ -63,6 +67,7 @@ function FeaturesBar({ fetchByCategory, search, filter, sort }) {
           className="features-bar__item"
           style={{ cursor: "pointer" }}
           onClick={() => {
+            if (toggleSideBar) setToggleSideBar(false);
             fetchByCategory("upcoming");
           }}
         >
@@ -75,6 +80,8 @@ function FeaturesBar({ fetchByCategory, search, filter, sort }) {
           <select
             name="filter"
             onChange={(e) => {
+              if (toggleSideBar) setToggleSideBar(false);
+
               if (e.target.value === "0") {
                 filter(parseInt(e.target.value));
                 e.target.value = e.target.value = "Genre";
@@ -101,8 +108,8 @@ function FeaturesBar({ fetchByCategory, search, filter, sort }) {
             name="sort"
             onChange={(e) => {
               sort(e.target.value);
-              if (e.target.value === "clear")
-                e.target.value = e.target.value = "Sort";
+              if (toggleSideBar) setToggleSideBar(false);
+              if (e.target.value === "clear") e.target.value = e.target.value = "Sort";
             }}
           >
             <option hidden defaultValue>
@@ -117,14 +124,10 @@ function FeaturesBar({ fetchByCategory, search, filter, sort }) {
           </select>
         </li>
       </ul>
-      <div className="toggle-sidebar" onClick={handleSideBar}>
-        {isActive ? <FaWindowClose /> : <BsList />}
-      </div>
-      <div
-        className={`features-bar__search ${
-          isActive ? "features-bar__search--hide" : ""
-        }`}
-      >
+      <div className={`features-bar__search ${toggleSideBar ? "features-bar__search--hide" : ""}`}>
+        <div className="toggle-sidebar" onClick={handleSideBar}>
+          <BsList />
+        </div>
         <input
           type="text"
           placeholder="Search a movie"

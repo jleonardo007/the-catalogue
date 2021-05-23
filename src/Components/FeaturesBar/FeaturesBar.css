@@ -2,88 +2,159 @@
   min-height: 10vh;
   display: flex;
   z-index: 1;
+  font-size: 1.8vw;
 }
 
 .features-bar__features-list {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   flex-grow: 2;
 }
 
+.features-bar__item:hover {
+  color: #e94560;
+}
+
+.features-bar__item a:hover {
+  color: #e94560;
+}
+
+.features-bar select {
+  font-size: 1.2vw;
+}
+
+.features-bar__search {
+  align-self: center;
+  display: flex;
+  outline: 1px solid grey;
+}
+
+.features-bar__search input {
+  height: 40px;
+  padding-left: 1rem;
+  border: none;
+}
+
+.features-bar__search input:focus {
+  outline: none;
+}
+
+.features-bar__search button {
+  height: 40px;
+  display: grid;
+  place-content: center;
+  border: none;
+  background: #e94560;
+  cursor: pointer;
+}
+
 .toggle-sidebar {
-  min-width: 35px;
-  height: 35px;
+  height: 40px;
   display: none;
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-size: 1.5rem;
   background-color: #e94560;
   color: #eeeeee;
   z-index: 1;
 }
 
-.features-bar__search {
-  align-self: center;
-  outline: 1px solid grey;
-  margin: 0 auto;
+.close-sidebar-btn {
+  min-width: 11vw;
+  border: none;
+  border-radius: 50%;
+  height: 11vw;
+  position: absolute;
+  top: 2%;
+  left: 85%;
+  background: none;
+  background-color: #e94560;
+  color: #eeeeee;
+  font-size: 4.4vw;
+  font-weight: bold;
 }
 
-.features-bar__search input {
-  width: 64vw;
-  height: 35px;
-  padding-left: 1rem;
-  border: none;
-}
-
-.features-bar__search button {
-  width: 50px;
-  height: 35px;
-  line-height: 35px;
-  border: none;
-  background: #e94560;
+.features-bar__search--hide {
+  display: none;
 }
 
 /* Layout for mobile devices*/
 @media screen and (max-width: 480px) {
+  .features-bar {
+    justify-content: center;
+    align-items: center;
+  }
+
   .features-bar__features-list {
-    min-width: 100vw;
     min-height: 100vh;
     display: none;
+  }
+
+  .sidebar {
+    min-height: 100vh;
+    display: flex;
     flex-direction: column;
     justify-content: space-around;
+    position: relative;
     z-index: 1;
     background-color: #16213e;
-    font-size: 2rem;
+    font-size: 9vw;
   }
 
   .features-bar__item {
     display: block;
-    min-height: 50px;
-    min-width: 50px;
+    min-width: 100%;
+    min-height: 14vw;
     text-align: center;
   }
 
+  .features-bar__search {
+    width: 75vw;
+    font-size: 1.5vw;
+  }
+
   .features-bar__item select {
-    min-width: 200px;
-    font-size: 1.5rem;
+    min-width: 56vw;
+    font-size: 6.7vw;
   }
 
   .toggle-sidebar {
+    min-width: 15%;
     display: grid;
     place-content: center;
+  }
+
+  .toggle-sidebar,
+  .features-bar__search button {
+    font-size: 4.4vw;
+  }
+  .features-bar__search input {
+    min-width: 70%;
+  }
+
+  .features-bar__search button {
+    min-width: 15%;
   }
 }
 
 /* Layout for tablets*/
-@media screen and (min-width: 481px) and (max-width: 1023px) {
+@media screen and (min-width: 481px) and (max-width: 1024px) {
   .features-bar {
+    min-height: 5vh;
     flex-wrap: wrap;
   }
 
-  .features-bar__item select {
-    width: 70px;
+  .features-bar__search {
+    width: 22.5vw;
+    margin-right: 1rem;
+  }
+
+  .features-bar__search input {
+    min-width: 85%;
+    height: 30px;
+  }
+
+  .features-bar__search button {
+    min-width: 15%;
+    height: 30px;
   }
 }
 
@@ -93,43 +164,39 @@
     position: sticky;
     top: 0;
   }
+
   .features-bar__search {
+    width: 22.5vw;
     margin-right: 1rem;
   }
 
   .features-bar__search input {
-    width: 25vw;
+    min-width: 85%;
+    height: 30px;
+    font-size: 1.2vw;
+  }
+
+  .features-bar__search button {
+    min-width: 15%;
+    height: 30px;
+    font-size: 1.2vw;
   }
 }
 
 /* Bigger screens layout */
 @media screen and (min-width: 1441px) {
-  .features-bar,
-  .features-bar__item select {
-    font-size: 2rem;
-  }
-
   .features-bar__search {
-    height: 50px;
+    height: 70px;
   }
 
   .features-bar__search input,
   .features-bar__search button {
-    height: 50px;
-    font-size: 2rem;
+    height: 70px;
   }
 }
 
-.features-bar__search--hide {
-  display: none;
-}
-
-.features-bar__features-list--sidebar {
-  display: flex;
-}
-
 /*Look and feel*/
-@media screen and (min-width: 801px) {
+@media screen and (min-width: 481px) {
   .features-bar {
     background-color: #16213e;
   }
