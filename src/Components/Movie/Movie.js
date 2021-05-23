@@ -74,7 +74,7 @@ function Movie() {
           <div className="youtube-container">
             <h2>Movie trailer</h2>
             {trailer ? (
-              <Youtube videoId={trailer.id} id={trailer.id} className="movie__trailer" />
+              <Youtube videoId={`${trailer.key}`} id={trailer.id} className="movie__trailer" />
             ) : (
               "Fetching video trailer"
             )}
