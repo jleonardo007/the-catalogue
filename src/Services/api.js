@@ -1,4 +1,4 @@
-export default {
+const api = {
   fetchNowPlayingMovies: async (pageNumber = 1) => {
     const response = await fetch(
       `https://api.themoviedb.org/3/movie/now_playing?api_key=af058d99e581a98b7f284b08a4b31810&language=en-US&page=${pageNumber}`
@@ -69,3 +69,5 @@ export default {
     return similarMovies.results.slice(0, 10);
   },
 };
+
+export default api;
