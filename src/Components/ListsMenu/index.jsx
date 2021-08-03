@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faListUl } from "@fortawesome/free-solid-svg-icons";
+import createUserList from "./handlers.js";
 import "./styles.css";
 
-function MenuList({ lists, listParent, movie, addMovie }) {
+function MenuList({ lists, listParent, movie, addMovieToList }) {
   /*
     The prop "listParent" means if <ListMenu/> is on <MoviesLists> (listParent=true) 
     or <Movie/> (listParent=false).
@@ -20,28 +21,6 @@ function MenuList({ lists, listParent, movie, addMovie }) {
   */
 
   const [input, setInput] = useState("");
-
-  const createUserList = () => {
-    const listStorage = JSON.parse(localStorage.lists);
-    const list = listStorage.find((list) => list.name === input);
-    let userList = {};
-
-    if (list) {
-      alert(`"${input}" already exits`);
-    } else {
-      userList = {
-        id: input.replace(/ /g, "-"),
-        listType: "user list",
-        name: input,
-        movies: listParent ? [] : [].concat(movie),
-      };
-
-      listStorage.push(userList);
-      localStorage.setItem("lists", JSON.stringify(listStorage));
-    }
-
-    setInput("");
-  };
 
   return (
     <div className="lists-menu">
@@ -59,7 +38,7 @@ function MenuList({ lists, listParent, movie, addMovie }) {
                   ) : (
                     <span
                       onClick={() => {
-                        addMovie(list.id, list.name);
+                        addMovieToList(movie, list.id, list.name);
                       }}
                     >
                       {list.name}
@@ -77,7 +56,8 @@ function MenuList({ lists, listParent, movie, addMovie }) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "Enter" && input.trim()) createUserList();
+              if (e.key === "Enter" && input.trim())
+                createUserList(listParent, movie, input, setInput);
             }}
           />
         </li>

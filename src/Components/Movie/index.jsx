@@ -1,46 +1,15 @@
-import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import Youtube from "react-youtube";
-import API from "../../Services/api";
 import ListsMenu from "../ListsMenu";
+import useMovie from "./hooks";
+import addMovieToList from "./handlers";
 import "./styles.css";
 
 function Movie() {
   const { id } = useParams();
-  const [movie, setMovie] = useState(null);
-  const [trailer, setTrailer] = useState(null);
-  const [similar, setSimilar] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      setMovie(await API.fetchMovie(id));
-      setTrailer(await API.fetchMovieVideos(id));
-      setSimilar(await API.fetchSimilarMovies(id));
-    })();
-
-    return function cleanUp() {
-      setMovie(null);
-      setTrailer(null);
-      setSimilar(null);
-    };
-  }, [id]);
-
-  const addMovieToList = (listId, listName) => {
-    const storage = JSON.parse(localStorage.lists);
-    const list = storage.find((list) => list.id === listId);
-    const id = movie.id;
-
-    if (list.movies.some((movie) => movie.id === id)) {
-      alert(`"${movie.original_title}" was added to "${listName}"`);
-    } else {
-      list.movies.push(movie);
-      localStorage.setItem("lists", JSON.stringify(storage));
-
-      alert(`"${movie.original_title}" added to "${listName}"`);
-    }
-  };
+  const { movie, trailer, similar } = useMovie(id);
 
   return movie ? (
     <div className="movie">
@@ -61,7 +30,7 @@ function Movie() {
           listParent={false}
           lists={JSON.parse(localStorage.lists)}
           movie={movie}
-          addMovie={addMovieToList}
+          addMovieToList={addMovieToList}
         />
 
         <div className="movie__details">
