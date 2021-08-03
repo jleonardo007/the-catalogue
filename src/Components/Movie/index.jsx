@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 import Youtube from "react-youtube";
-import { FaHome } from "react-icons/fa";
 import API from "../../Services/api";
 import ListsMenu from "../ListsMenu";
 import "./styles.css";
@@ -54,7 +55,7 @@ function Movie() {
       <section className="movie__description">
         <h1 className="movie__title">{movie.original_title}</h1>
         <Link to="/home">
-          <FaHome className="movie-list__icons" />
+          <FontAwesomeIcon icon={faHome} className="movie-list__icons" />
         </Link>
         <ListsMenu
           listParent={false}

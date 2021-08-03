@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaListUl } from "react-icons/fa";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faListUl } from "@fortawesome/free-solid-svg-icons";
 import "./styles.css";
 
 function MenuList({ lists, listParent, movie, addMovie }) {
@@ -44,7 +45,7 @@ function MenuList({ lists, listParent, movie, addMovie }) {
 
   return (
     <div className="lists-menu">
-      <FaListUl className="list-icon" />
+      <FontAwesomeIcon icon={faListUl} className="movie-list__icons" />
       <ul className="lists-menu__lists">
         <li className="list-menu__item" style={{ color: "#e94560" }}>
           {listParent ? "Go to" : "Add to"}

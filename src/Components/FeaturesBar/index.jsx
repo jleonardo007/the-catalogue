@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { BsSearch, BsList } from "react-icons/bs";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch, faBars } from "@fortawesome/free-solid-svg-icons";
 import genres from "../../Helpers/movie-genres";
 import "./styles.css";
 
@@ -125,7 +125,7 @@ function FeaturesBar({ fetchByCategory, search, filter, sort }) {
       </ul>
       <div className={`features-bar__search ${toggleSideBar ? "features-bar__search--hide" : ""}`}>
         <div className="toggle-sidebar" onClick={handleSideBar}>
-          <BsList />
+          <FontAwesomeIcon icon={faBars} />
         </div>
         <input
           type="text"
@@ -144,7 +144,7 @@ function FeaturesBar({ fetchByCategory, search, filter, sort }) {
             handleSearch();
           }}
         >
-          <BsSearch />
+          <FontAwesomeIcon icon={faSearch} />
         </button>
       </div>
     </nav>
