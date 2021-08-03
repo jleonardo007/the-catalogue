@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useEffect, useRef } from "react";
 import FeaturesBar from "../FeaturesBar/FeaturesBar";
 import MovieCard from "../MovieCard/MovieCard";

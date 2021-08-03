@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import "./MovieCard.css";
 import Image from "../../resources/popcorn.png";

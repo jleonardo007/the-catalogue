@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Youtube from "react-youtube";
