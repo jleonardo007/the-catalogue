@@ -20,6 +20,9 @@
   min-height: 10%;
   padding: 0.6vw;
   font-size: 1.2vw;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 480px) {
