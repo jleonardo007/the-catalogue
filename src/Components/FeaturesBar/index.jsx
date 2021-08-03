@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { BsSearch, BsList } from "react-icons/bs";
 
 import genres from "../../Helpers/movie-genres";
-import "./FeaturesBar.css";
+import "./styles.css";
 
 function FeaturesBar({ fetchByCategory, search, filter, sort }) {
   const [toggleSideBar, setToggleSideBar] = useState(false);

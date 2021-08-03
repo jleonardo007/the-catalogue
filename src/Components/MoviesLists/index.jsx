@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FaHome, FaTrashAlt, FaWindowClose } from "react-icons/fa";
-import MovieCard from "../MovieCard/MovieCard";
-import ListsMenu from "../ListsMenu/ListsMenu";
-import "./MoviesLists.css";
+import MovieCard from "../MovieCard";
+import ListsMenu from "../ListsMenu";
+import "./styles.css";
 
 function MoviesLists() {
   const { listName } = useParams();

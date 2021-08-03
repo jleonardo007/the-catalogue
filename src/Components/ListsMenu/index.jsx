@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaListUl } from "react-icons/fa";
-import "./ListsMenu.css";
+import "./styles.css";
 
 function MenuList({ lists, listParent, movie, addMovie }) {
   /*

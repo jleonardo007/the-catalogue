@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "./MovieCard.css";
+import "./styles.css";
 import Image from "../../resources/popcorn.png";
 
 function MovieCard({ movie, children }) {

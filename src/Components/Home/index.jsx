@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import FeaturesBar from "../FeaturesBar/FeaturesBar";
-import MovieCard from "../MovieCard/MovieCard";
+import FeaturesBar from "../FeaturesBar";
+import MovieCard from "../MovieCard";
 import API from "../../Services/api";
-import "./Home.css";
+import "./styles.css";
 
 function Home() {
   const observerTarget = useRef(null);

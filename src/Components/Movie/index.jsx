@@ -3,8 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import Youtube from "react-youtube";
 import { FaHome } from "react-icons/fa";
 import API from "../../Services/api";
-import ListsMenu from "../ListsMenu/ListsMenu";
-import "./Movie.css";
+import ListsMenu from "../ListsMenu";
+import "./styles.css";
 
 function Movie() {
   const { id } = useParams();
